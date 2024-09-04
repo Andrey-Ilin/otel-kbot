@@ -1,0 +1,25 @@
+image:
+  repository: otel/opentelemetry-collector-contrib
+  tag: 0.78.0
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 4317
+
+config:
+  receivers:
+    otlp:
+      protocols:
+        grpc:
+  processors:
+    batch:
+  exporters:
+    logging:
+      loglevel: debug
+  service:
+    pipelines:
+      traces:
+        receivers: [otlp]
+        processors: [batch]
+        exporters: [logging]
